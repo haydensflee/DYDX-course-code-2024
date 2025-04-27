@@ -7,13 +7,13 @@ from func_public import construct_market_prices
 from func_cointegration import store_cointegration_results
 from func_entry_pairs import open_positions
 from func_exit_pairs import manage_trade_exits
-from func_messaging import send_message
+# from func_messaging import send_message
 
 # MAIN FUNCTION
 async def main():
 
   # Message on start
-  send_message("Bot launch successful")
+  #send_message("Bot launch successful")
 
   # Connect to client
   try:
@@ -23,7 +23,7 @@ async def main():
     client = await connect_dydx()
   except Exception as e:
     print("Error connecting to client: ", e)
-    send_message(f"Failed to connect to client {e}")
+    #send_message(f"Failed to connect to client {e}")
     exit(1)
 
   # Abort all open positions
@@ -34,7 +34,7 @@ async def main():
       await abort_all_positions(client)
     except Exception as e:
       print("Error closing all positions: ", e)
-      send_message(f"Error closing all positions {e}")
+      #send_message(f"Error closing all positions {e}")
       exit(1)
 
   # Find Cointegrated Pairs
@@ -48,7 +48,7 @@ async def main():
       print(df_market_prices)
     except Exception as e:
       print("Error constructing market prices: ", e)
-      send_message(f"Error constructing market prices {e}")
+      #send_message(f"Error constructing market prices {e}")
       exit(1)
 
     # Store Cointegrated Pairs
@@ -61,7 +61,7 @@ async def main():
         exit(1)
     except Exception as e:
       print("Error saving cointegrated pairs: ", e)
-      send_message(f"Error saving cointegrated pairs {e}")
+      #send_message(f"Error saving cointegrated pairs {e}")
       exit(1)
 
   # Run as always on
@@ -76,7 +76,7 @@ async def main():
         time.sleep(1)
       except Exception as e:
         print("Error managing exiting positions: ", e)
-        send_message(f"Error managing exiting positions {e}")
+        #send_message(f"Error managing exiting positions {e}")
         exit(1)
 
     # Place trades for opening positions
@@ -87,7 +87,7 @@ async def main():
         await open_positions(client)
       except Exception as e:
         print("Error trading pairs: ", e)
-        send_message(f"Error opening trades {e}")
+        #send_message(f"Error opening trades {e}")
         exit(1)
 
 asyncio.run(main())

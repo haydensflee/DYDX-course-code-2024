@@ -26,7 +26,7 @@ async def cancel_order(client, order_id):
     good_til_block=good_til_block
   )
   print(cancel)
-  print(f"Attempted to cancel order for: {order["ticker"]}. Please check dashboard to ensure cancelled.")
+  # print(f"Attempted to cancel order for: {order["ticker"]}. Please check dashboard to ensure cancelled.")
 
 # Get Account
 async def get_account(client):
@@ -75,7 +75,8 @@ async def check_order_status(client, order_id):
 
 # Place market order
 async def place_market_order(client, market, side, size, price, reduce_only):
-
+  print("Placing market order...")
+  print(f"Market: {market}, Side: {side}, Size: {size}, Price: {price}, Reduce Only: {reduce_only}")
   # Initialize
   ticker = market
   current_block = await client.node.latest_block_height()
@@ -124,8 +125,12 @@ async def place_market_order(client, market, side, size, price, reduce_only):
   # Ensure latest order
   if order_id == "":
     sorted_orders = sorted(orders, key=lambda x: x["createdAtHeight"], reverse=True)
-    pprint("last order:", sorted_orders[0])
+    print("last order:")
+    pprint(sorted_orders[0])
     print("Warning: Unable to detect latest order. Please check dashboard")
+    
+    # bandaid solution
+    return (-1,sorted_orders[0]["id"])
     exit(1)
 
   # Print something if error returned
@@ -133,6 +138,7 @@ async def place_market_order(client, market, side, size, price, reduce_only):
     print(order)
 
   # Return result
+  print("Order placed successfully")
   return (order, order_id)
 
 # Get Open Orders

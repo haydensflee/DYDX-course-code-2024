@@ -62,6 +62,7 @@ async def open_positions(client):
     if len(series_1) > 0 and len(series_1) == len(series_2):
       spread = series_1 - (hedge_ratio * series_2)
       z_score = calculate_zscore(spread).values.tolist()[-1]
+      print(f"ZScore: {z_score} for {base_market} and {quote_market}")
 
       # Establish if potential trade
       if abs(z_score) >= ZSCORE_THRESH:
